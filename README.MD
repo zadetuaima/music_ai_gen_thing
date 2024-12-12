@@ -45,7 +45,7 @@ all the files should follow the path /usr/audiocraft/the_rest_of_your_cloned_in_
 
 A Spotify API key is needed:
 
-- **Spotify API setup:**
+**Spotify API setup:**
 
 Spotify API credentials, create a new application within the Spotify developer tab to get a client_id, client_secret, redirect and a username
 
@@ -76,9 +76,9 @@ Spotify API credentials, create a new application within the Spotify developer t
 
 ## Prompt Examples
 
--UK Drum and Bass with a wobbly bass
--Berlin techno
--Japanese flute, lofi hiphop, music for studying
--90s rock song with electric guitar and heavy drums
--Beautiful piano masterpiece
+- UK Drum and Bass with a wobbly bass
+- Berlin techno
+- Japanese flute, lofi hiphop, music for studying
+- 90s rock song with electric guitar and heavy drums
+- Beautiful piano masterpiece
 
