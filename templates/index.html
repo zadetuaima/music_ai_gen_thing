@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicAI</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body id="body">
+    <div class="header">
+      <p>Music AI Generator Thing</p>
+      <button onClick="window.location.reload();"><img src="/static/steve-refresh.png" alt="refresh logo"></button>
+    </div>
+    </div>
+
+    <div class="main">
+			<div class="maindescintro">
+				<a class="github" href="https://github.com/" target="_blank"><p style="text-decoration: underline;">G</p><p>ithub</p></a>
+			</div>
+      <div class="selectboxes">
+        <div id="search-text" class="searchbox">
+          <p>Search Field</p>
+        </div>
+        <div id="info-button" class="infobox">
+          <p>Info</p>
+        </div>
+      </div>
+      <div class="boxflex" id="boxflex">
+        <div class="searchline"><p>Search Field</p></div>
+          <div class="box">
+          <div class="boxinner">
+            <div class="boxL">
+              <div class="searchfield">
+                <p>URL:</p>
+              </div>
+              <div class="searchfield">
+                <p>Prompt:</p>
+              </div>
+              <div class="searchfield">
+                <p>Song Length:</p>
+              </div>
+            </div>
+            <div class="boxR">
+              <div class="searchbar">
+                  <input id="playlist_url" class="input-vin" type="text" placeholder="Enter Spotify song URL..." required>
+              </div>
+              <div class="searchbar1">
+                  <input id="genre" type="text" placeholder="Enter a music genre..." required>
+              </div>
+              <div class="slider">
+                  <input type="range" id="secondsSlider" name="secondsSlider" min="0" max="30" value="15" oninput="updateSliderValue(this.value)">
+                  <span id="sliderValue">15&nbsp;</span>seconds
+              </div>
+            </div>
+          </div>
+          <div class="generatebuttonflex">
+            <div class="generatebutton">
+              <button id='clearfields' class="clearfields" type="buton" onclick="document.getElementById('playlist_url').value = ''">Clear Fields</button>
+                <button class="download_generate_button" id="download_generate_button" type="button">Generate!</button>
+            </div>
+          </div>
+        </div>
+        <div class="box2">
+          <div class="searchline"><p>Advanced (OPTIONAL)</p></div>
+
+          <div class="box2L">
+            <div class="searchfield1">
+              <p>Model:</p>
+            </div>
+            <div class="searchfield1 bitratefield">
+              <p>Bitrate:</p>
+            </div>
+            <div class="searchfield1 bitratefield2">
+              <p>Randomisation:</p>
+            </div>
+          </div>
+          <div class="box2R">
+            <select id="music-genres">
+                <option value="melody">facebook/musicgen-melody</option>
+                <option value="melody-large">facebook/musicgen-melody-large</option>
+            </select>
+            <select class="bitrate" id="bitrate">
+                <option value="128kbps">128kbps</option>
+                <option value="256kbps">256kbps</option>
+                <option value="320kbps">320kbps</option>
+            </select>
+            <select class="bitrate2" id="bitrate">
+                <option value="random1">1.0</option>
+                <option value="random2">2.0</option>
+                <option value="random3">3.0</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="info-text" id="info-text" style="display: none;">
+        <div class="infoL">
+        <h3>Music AI Generator Thing</h3>
+        <p>Welcome to the Music AI Generator Thing bot V1. This has been built using Meta's Audiocraft, take a melody from a spotify song of your choosing, and combine it with a genre description to generate a song.</p>
+        <h3>Usage</h3>
+        <ul>
+        <li>Paste a spotify song URL into the URL input.</li>
+        <li>Give the bot a prompt to go off. This should be based around a genre and the 'vibe' you want the generated music to give off.</li>
+        <li>Select the generated song length. 10s+ lengths will cause heavy CPU usage and may crash your computer if you have less than 8 cores.</li>
+        </ul>
+        </div>
+        <div class="infoR">
+        <h3>Advance</h3>
+        <ul>
+        <li>The model can also be changed. NOTE for musicgen-melody-large YOU MUST HAVE A GPU ON YOUR DEVICE, otherwise it will break your computer.</li>
+        <li>The bitrate of the downloaded spotify song can also be changed, with 320kbps being high quaility and 128kpbs being low.</li>
+        </ul>
+        <h3>Prompt examples</h3>
+        <ul>
+        <li>UK Drum and Bass with a wobbly bass</li>
+        <li>Berlin techno</li>
+        <li>Japanese flute, lofi hiphop, music for studying</li>
+        <li>90s rock song with electric guitar and heavy drums</li>
+        <li>Beautiful piano masterpiece</li>
+        </ul>
+        </div>
+      </div>
+    </div>
+    <div class='texttestcon'>
+      <div id="texttest1" class="texttest1">
+        <p>Downloading...</p>
+      </div>
+      <div id="texttest" class="texttest">
+        <p>Download Complete! Please check in /usr/audiocraft/downloads</p>
+      </div>
+    </div>
+    <div class="window">
+    <div class="window-body">
+        <div class="loading-bar-container">
+            <div class="loading-bar-segments">
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<script>
+document.getElementById("search-text").addEventListener('click', () => {
+  const boxFlex1 = document.getElementById('boxflex');
+  const infoText1 = document.getElementById('info-text');
+  const searchbox = document.getElementById('search-text');
+  const infobox = document.getElementById('info-button');
+  infoText1.style.display = 'none';
+  boxFlex1.style.display = 'flex';
+  searchbox.style.border = '2px inset #ccc';
+  searchbox.style.backgroundColor = '#e0e0e0';
+  searchbox.style.borderTopColor = '#fff';
+  searchbox.style.borderLeftColor = '#fff';
+  searchbox.style.borderRightColor = '#333';
+  searchbox.style.borderBottomColor = '#333';
+  infobox.style.border = '3px solid #fff';
+  infobox.style.borderTopColor = '#fff';
+  infobox.style.borderLeftColor = '#fff';
+  infobox.style.borderRightColor = '#333';
+  infobox.style.borderBottomColor = '#333';
+  infobox.style.backgroundColor = '#bfbfbf';
+});
+document.getElementById('info-button').addEventListener('click', () => {
+  const boxFlex = document.getElementById('boxflex');
+  const infoText = document.getElementById('info-text');
+  const searchbox = document.getElementById('search-text');
+  const infobox = document.getElementById('info-button');
+  boxFlex.style.display = 'none';
+  infoText.style.display = 'grid';
+  infobox.style.border = '2px inset #ccc';
+  infobox.style.backgroundColor = '#e0e0e0';
+  infobox.style.borderTopColor = '#fff';
+  infobox.style.borderLeftColor = '#fff';
+  infobox.style.borderRightColor = '#333';
+  infobox.style.borderBottomColor = '#333';
+  searchbox.style.border = '3px solid #fff';
+  searchbox.style.borderTopColor = '#fff';
+  searchbox.style.borderLeftColor = '#fff';
+  searchbox.style.borderRightColor = '#333';
+  searchbox.style.borderBottomColor = '#333';
+  searchbox.style.backgroundColor = '#bfbfbf';
+});
+
+document.getElementById('clearfields').addEventListener('click', () => {
+  const genre = document.getElementById('genre');
+  genre.value = '';
+});
+
+
+</script>
+<script>
+// Initialize the loading bar segments
+const loadingBarSegments = document.querySelector('.loading-bar-segments');
+for (let i = 0; i < 80; i++) {
+    const segment = document.createElement('div');
+    segment.classList.add('segment');
+    loadingBarSegments.appendChild(segment);
+}
+
+const totalSegments = 80; // Total number of segments
+const maxSegmentsBeforeResponse = Math.floor(totalSegments * 0.92); // 92% of the segments
+const totalTimeFor92Percent = 80000; // 80 seconds in milliseconds
+let currentSegment = 0;
+let interval; // Store the current interval for clearing if needed
+
+// Function to reset the loading bar
+function resetLoadingBar() {
+    clearTimeout(interval); // Clear any existing interval
+    currentSegment = 0; // Reset the segment counter
+    for (let i = 0; i < totalSegments; i++) {
+        const segment = loadingBarSegments.children[i];
+        const infoText2 = document.getElementById('texttest');
+        infoText2.style.opacity = '0';
+        segment.style.backgroundColor = '#bfbfbf'; // Reset all segments to empty state
+    }
+}
+
+// Function to randomize the timing for each segment
+function getRandomSpeed(segmentIndex) {
+    const timePerSegment = totalTimeFor92Percent / maxSegmentsBeforeResponse;
+    if (segmentIndex < 20) return Math.random() * (timePerSegment * 0.5 - timePerSegment * 0.25) + timePerSegment * 0.25; // Faster for the first few
+    if (segmentIndex >= 20 && segmentIndex < 60) return Math.random() * (timePerSegment * 1.5 - timePerSegment * 0.75) + timePerSegment * 0.75; // Slower in the middle
+    return Math.random() * (timePerSegment * 0.5 - timePerSegment * 0.25) + timePerSegment * 0.25; // Faster again for the last few
+}
+
+// Function to fill segments up to 92%
+function fillSegments() {
+    if (currentSegment < maxSegmentsBeforeResponse) {
+        const segment = loadingBarSegments.children[currentSegment];
+        segment.style.backgroundColor = '#000080'; // Fill the current segment
+        currentSegment++;
+
+        const nextSpeed = getRandomSpeed(currentSegment);
+        interval = setTimeout(fillSegments, nextSpeed);
+    }
+}
+
+// Event listener for the "Generate" button
+document.getElementById('download_generate_button').addEventListener('click', async () => {
+    const playlistUrl = document.getElementById('playlist_url').value;
+    const genre = document.getElementById('genre').value;
+    const seconds = document.getElementById('secondsSlider').value;
+    const texttest1 = document.getElementById('texttest1');
+
+
+    if (!playlistUrl) {
+        console.error('Please enter a playlist URL.');
+        return;
+    }
+
+    if (!genre) {
+        console.error('Please enter a genre.');
+        return;
+    }
+
+    // Reset the loading bar on each "Generate" click
+    resetLoadingBar();
+
+    // Start the loading bar
+    fillSegments();
+    texttest1.style.opacity = '1';
+
+
+    try {
+        const response = await fetch('/download_and_generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({
+                'playlist_url': playlistUrl,
+                'genre': genre,
+                'seconds': seconds,
+            }),
+        });
+
+        const infoText2 = document.getElementById('texttest');
+        const texttest1 = document.getElementById('texttest1');
+        const result = await response.json();
+        if (result.success) {
+            // Complete the bar to 100% on success
+            for (let i = currentSegment; i < totalSegments; i++) {
+                const segment = loadingBarSegments.children[i];
+                segment.style.backgroundColor = '#000080'; // Fill the remaining segments
+                infoText2.style.opacity = '1';
+                texttest1.style.opacity = '0';
+
+            }
+            currentSegment = totalSegments;
+        } else {
+            console.error(result.message || 'An error occurred.');
+        }
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
+});
+
+</script>
+<script>
+document.getElementById('download_generate_button').addEventListener('click', async () => {
+const playlistUrl = document.getElementById('playlist_url').value;
+const genre = document.getElementById('genre').value;
+const seconds = document.getElementById('secondsSlider').value;
+
+if (!playlistUrl) {
+  alert('Please enter a playlist URL.');
+  return;
+}
+
+if (!genre) {
+  alert('Please enter a genre.');
+  return;
+}
+
+const loadingBar = document.getElementById('loadingProgressBar');
+const loadingText = document.getElementById('loadingText');
+const progressPercent = document.getElementById('progressPercent');
+
+loadingBar.style.display = 'block';
+loadingText.style.display = 'block';
+
+try {
+  const response = await fetch('/download_and_generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+          'playlist_url': playlistUrl,
+          'genre': genre,
+          'seconds': seconds
+      })
+  });
+
+
+  const result = await response.json();
+  if (result.success) {
+      alert('Music generated successfully!');
+  } else {
+      alert(result.message || 'An error occurred.');
+  }
+} catch (error) {
+  alert('An error occurred.');
+  console.error(error);
+}
+});
+
+function updateSliderValue(value) {
+document.getElementById('sliderValue').textContent = value;
+}
+</script>
+</body>
+</html>
