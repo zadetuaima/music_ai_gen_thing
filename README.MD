@@ -26,7 +26,7 @@ sudo apt-get install ffmpeg
 conda install 'ffmpeg<5' -c  conda-forge
 ```
 
-You should now have audiocraft installed on your device. To use the script please then clone in all of the other files/folders from this repository into your audiocraft folder. 
+The prerequisites of audiocraft should now be installed on your device. To use the script please then clone in all of the other files/folders from this repository into your audiocraft folder. 
 
 ```bash
 git clone https://github.com/zadetuaima/music_ai_gen_thing
