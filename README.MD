@@ -13,7 +13,7 @@ git clone https://github.com/facebookresearch/audiocraft
 cd audiocraft
 ```
 
-proceed with installing pytorch 2.0.1 and ffmpeg. the version of pytorch matching 2.0.1 is imperative. 
+proceed with installing pytorch 2.0.1 and ffmpeg. The version of pytorch matching 2.0.1 is imperative. 
 
 
 ```bash
@@ -26,20 +26,25 @@ sudo apt-get install ffmpeg
 conda install 'ffmpeg<5' -c  conda-forge
 ```
 
+You should now have audiocraft installed on your device. To use the script please then clone in all of the other files/folders from this repository into your audiocraft folder. 
+
+```bash
+git clone https://github.com/zadetuaima/music_ai_gen_thing
+```
+
+all the files should follow the path /usr/audiocraft/the_rest_of_your_cloned_in_files (do not place them in a folder within your audiocraft folder)
+
 Now we can proceed to install the rest of the packages with:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-You should now have audiocraft installed on your device. To use the script please then clone in all of the other files/folders from this repository into your audiocraft folder.
+Finally begin with flask
 
 ```bash
-git clone https://github.com/zadetuaima/music_ai_gen_thing
+flask run
 ```
-
-all the files should follow the path /usr/audiocraft/the_rest_of_your_cloned_in_files
-
 
 ## Preperation
 
