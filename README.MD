@@ -13,7 +13,7 @@ git clone https://github.com/facebookresearch/audiocraft
 cd audiocraft
 ```
 
-proceed with installing pytorch 2.0.1 and ffmpeg. The version of pytorch matching 2.0.1 is imperative. 
+Proceed with installing pytorch 2.0.1 and ffmpeg. The version of pytorch matching 2.0.1 is imperative. 
 
 
 ```bash
@@ -32,7 +32,7 @@ You should now have audiocraft installed on your device. To use the script pleas
 git clone https://github.com/zadetuaima/music_ai_gen_thing
 ```
 
-all the files should follow the path /usr/audiocraft/the_rest_of_your_cloned_in_files (do not place them in a folder within your audiocraft folder)
+All the files should follow the path /usr/audiocraft/the_rest_of_your_cloned_in_files (do not place them in a folder within your audiocraft folder)
 
 Now we can proceed to install the rest of the packages with:
 
